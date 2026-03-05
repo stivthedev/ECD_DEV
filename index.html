@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>$EC - Emergency Condom</title>
+
+    <style>
+        :root {
+            --bg: #1b0620;
+            --box: #2a0c33;
+            --border: #5e2a66;
+            --text: #ffffff;
+            --accent: #ff7edb;
+            --danger: #ff3b7a;
+            --terminal: #120216;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: auto;
+            padding: 40px 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .logo img {
+            width: 250px;
+            border-radius: 50px;
+            margin-bottom: 15px;
+        }
+
+        h1 {
+            font-size: 2.6rem;
+            margin-bottom: 10px;
+        }
+
+        .tagline {
+            opacity: .8;
+            font-size: 1.2rem;
+        }
+
+        .box {
+            background: var(--box);
+            padding: 30px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            margin-bottom: 30px;
+        }
+
+        .box h3 {
+            letter-spacing: 2px;
+            color: var(--accent);
+            margin-top: 0;
+        }
+
+        /* Radar */
+
+        .radar {
+            width: 240px;
+            height: 240px;
+            border-radius: 50%;
+            border: 2px solid var(--accent);
+            margin: 30px auto;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .radar::before {
+            content: "";
+            position: absolute;
+            width: 50%;
+            height: 50%;
+            background: linear-gradient(90deg, transparent, var(--accent));
+            transform-origin: 100% 100%;
+            animation: radarSweep 3s linear infinite;
+        }
+
+        @keyframes radarSweep {
+            0% {
+                transform: rotate(0deg)
+            }
+
+            100% {
+                transform: rotate(360deg)
+            }
+        }
+
+        .radar-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--danger);
+            border-radius: 50%;
+            position: absolute;
+        }
+
+        /* city counters */
+
+        .city {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border);
+            font-size: .95rem;
+        }
+
+        /* terminal */
+
+        .terminal {
+            background: var(--terminal);
+            border-radius: 8px;
+            padding: 20px;
+            height: 220px;
+            overflow-y: auto;
+            font-family: monospace;
+            border: 1px solid var(--border);
+        }
+
+        .terminal-line {
+            color: #ff9ce8;
+            margin-bottom: 6px;
+            font-size: .9rem;
+        }
+
+        .twitter-float {
+
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+
+            width: 55px;
+            height: 55px;
+
+            border-radius: 50%;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 22px;
+
+            background: #1DA1F2;
+            color: white;
+
+            text-decoration: none;
+
+            box-shadow: 0 0 15px rgba(29, 161, 242, .6);
+
+            animation: twitterPulse 2.5s infinite;
+
+            z-index: 999;
+        }
+
+        .twitter-float:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 25px rgba(29, 161, 242, 1);
+        }
+
+        @keyframes twitterPulse {
+
+            0% {
+                box-shadow: 0 0 10px rgba(29, 161, 242, .4)
+            }
+
+            50% {
+                box-shadow: 0 0 25px rgba(29, 161, 242, 1)
+            }
+
+            100% {
+                box-shadow: 0 0 10px rgba(29, 161, 242, .4)
+            }
+
+        }
+
+        button {
+            background: transparent;
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            padding: 10px 18px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: .2s;
+        }
+
+        button:hover {
+            background: var(--accent);
+            color: #220028;
+        }
+
+        .twitter-btn {
+            margin-top: 15px;
+            padding: 10px 18px;
+            border-radius: 6px;
+            background: #ffffff;
+            border: none;
+            color: rgb(0, 0, 0);
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: .2s;
+        }
+
+        .twitter-btn:hover {
+            background: #0d8ddb;
+        }
+
+        footer {
+            text-align: center;
+            opacity: .6;
+            margin-top: 50px;
+            font-size: .9rem;
+        }
+
+        #deployBtn {
+            font-size: 1rem;
+            padding: 12px 22px;
+            border: 2px solid var(--danger);
+            color: var(--danger);
+        }
+
+        #deployBtn:hover {
+            background: var(--danger);
+            color: white;
+        }
+
+        .alert {
+            animation: flashAlert .5s infinite alternate;
+        }
+
+        @keyframes flashAlert {
+            from {
+                box-shadow: 0 0 0px var(--danger)
+            }
+
+            to {
+                box-shadow: 0 0 25px var(--danger)
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <header>
+
+            <div class="logo">
+                <img id="logo" src="logo.jpg" alt="Emergency Condom Logo">
+            </div>
+
+            <h1>⚠️ $EC - Emergency Condom</h1>
+
+            <p class="tagline">
+                "For situations that escalated faster than expected."
+            </p>
+            <button class="twitter-btn" onclick="window.open('https://twitter.com/YOURACCOUNT','_blank')">
+                Follow on Twitter
+            </button>
+            <p>
+                Every responsible person claims they are prepared.
+                Reality often runs on a different timeline.
+            </p>
+
+        </header>
+
+        <div class="box">
+
+            <h3>— RISK DETECTION RADAR —</h3>
+
+            <p>
+                Live monitoring of potential romantic encounters.
+            </p>
+
+            <div class="radar" id="radar">
+
+                <div class="radar-dot"></div>
+                <div class="radar-dot"></div>
+                <div class="radar-dot"></div>
+
+            </div>
+
+        </div>
+
+        <div class="box">
+
+            <h3>— GLOBAL EMERGENCY DEPLOYMENTS —</h3>
+
+            <p>
+                Estimated emergency condom usage across nightlife hubs.
+            </p>
+
+            <div class="city"><span>Stockholm</span><span id="c1">120</span></div>
+            <div class="city"><span>Berlin</span><span id="c2">230</span></div>
+            <div class="city"><span>London</span><span id="c3">190</span></div>
+            <div class="city"><span>New York</span><span id="c4">310</span></div>
+            <div class="city"><span>Tokyo</span><span id="c5">260</span></div>
+
+        </div>
+
+        <div class="box">
+
+            <h3>— SITUATION TERMINAL —</h3>
+
+            <p>
+                Monitoring nightlife signals worldwide.
+            </p>
+
+            <div class="terminal" id="terminal">
+                <div class="terminal-line">Initializing monitoring system...</div>
+            </div>
+
+        </div>
+
+        <div class="box">
+
+            <h3>— EMERGENCY ACTION —</h3>
+
+            <p>
+                If the situation escalates unexpectedly, activate the emergency protocol.
+            </p>
+
+            <button id="deployBtn" onclick="deployProtocol()">
+                DEPLOY EMERGENCY CONDOM
+            </button>
+
+            <div id="deployStatus" style="margin-top:20px;font-family:monospace;opacity:.9;">
+                System idle.
+            </div>
+
+        </div>
+
+        <footer>
+            Emergency Condom Monitoring System © 2026
+        </footer>
+
+    </div>
+
+    <script>
+
+        /* radar dot movement */
+
+        const dots = document.querySelectorAll(".radar-dot")
+
+        function moveDots() {
+
+            dots.forEach(dot => {
+
+                let x = Math.random() * 90
+                let y = Math.random() * 90
+
+                dot.style.left = x + "%"
+                dot.style.top = y + "%"
+
+            })
+
+        }
+
+        setInterval(moveDots, 1500)
+        moveDots()
+
+        /* city counters */
+
+        let counts = [120, 230, 190, 310, 260]
+
+        function updateCities() {
+
+            for (let i = 0; i < counts.length; i++) {
+
+                counts[i] += Math.floor(Math.random() * 10) + 1
+
+                document.getElementById("c" + (i + 1)).innerText = counts[i]
+
+            }
+
+        }
+
+        setInterval(updateCities, 1500)
+
+        /* terminal messages */
+
+        const messages = [
+
+            "Scanning nightlife zones...",
+            "Unexpected chemistry detected...",
+            "Confidence levels rising...",
+            "Monitoring dance floor density...",
+            "Situation escalation detected...",
+            "Searching pockets for protection...",
+            "Emergency protocol recommended...",
+            "Deploying responsible decision..."
+
+        ]
+
+        function addLine() {
+
+            const terminal = document.getElementById("terminal")
+
+            const line = document.createElement("div")
+
+            line.className = "terminal-line"
+
+            line.textContent = "> " + messages[Math.floor(Math.random() * messages.length)]
+
+            terminal.appendChild(line)
+
+            terminal.scrollTop = terminal.scrollHeight
+
+        }
+
+        setInterval(addLine, 2000)
+
+        /* pharmacy locator */
+
+        function findPharmacy() {
+
+            if (navigator.geolocation) {
+
+                navigator.geolocation.getCurrentPosition(function (pos) {
+
+                    let lat = pos.coords.latitude
+                    let lon = pos.coords.longitude
+
+                    let url = "https://www.google.com/maps/search/pharmacy/@" + lat + "," + lon + ",15z"
+
+                    window.open(url, "_blank")
+
+                })
+
+            } else {
+
+                window.open("https://www.google.com/maps/search/pharmacy", "_blank")
+
+            }
+
+        }
+        function deployProtocol() {
+
+            const status = document.getElementById("deployStatus")
+            const btn = document.getElementById("deployBtn")
+
+            btn.disabled = true
+            btn.innerText = "PROTOCOL ACTIVE"
+
+            document.body.classList.add("alert")
+
+            let steps = [
+                "Scanning environment...",
+                "Checking pockets...",
+                "Assessing risk levels...",
+                "Confirming responsible decision...",
+                "Locating nearest pharmacy..."
+            ]
+
+            let i = 0
+
+            function nextStep() {
+
+                if (i < steps.length) {
+
+                    status.innerText = "> " + steps[i]
+                    i++
+
+                    setTimeout(nextStep, 1200)
+
+                } else {
+
+                    status.innerText = "> Pharmacy located. Opening map..."
+
+                    setTimeout(() => {
+                        findPharmacy()
+                    }, 1000)
+
+                }
+
+            }
+
+            nextStep()
+
+        }
+    </script>
+    <a href="https://twitter.com/YOURACCOUNT" target="_blank" class="twitter-float" title="Follow on Twitter">
+        𝕏
+    </a>
+</body>
+
+</html>
